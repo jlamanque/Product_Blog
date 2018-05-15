@@ -54,7 +54,7 @@ end
 
 
 group :production do
-  gem 'pg' # postgres in heroku
+  gem 'pg', '~> 0.20' # postgres in heroku
   gem 'rails_12factor' # skip cdn hosting 
 end
 
