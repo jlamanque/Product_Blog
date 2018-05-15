@@ -1,0 +1,63 @@
+<p id="notice"><%= notice %></p>
+
+<h1 class="title-1">landing page</h1>
+    <div class= weather>
+    <div class= posts>
+    <div class= location>
+    <% @posts.each do |post| %>
+      <div class="post-item">
+        <%= link_to post do %>
+        <h3> <%= post.title %> </h3>
+          <% end %>
+        <div class="post.body">
+          <p><%= post.body[0...50] %>...</p>
+        </div>
+      </div>
+    </div>
+    <% end %>
+</table>
+
+<br>
+
+<%= link_to 'New Post', new_post_path %>
+
+
+<script>
+  var title = $('.title-1');
+  title.text("Oh my god its a new title!");
+  title.css({color:"green", fontSize:"60px"})
+  title.on('click', changeElementColor);
+  
+  function changeElementColor(event){
+    $(this).css({color:getRandomColor(), fontSize:"60px", backgroundColor:getRandomColor})
+  }
+  
+  
+  
+  function getRandomColor(){
+  return "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+}
+</script>
+
+<script>
+
+navigator.geolocation.getCurrentPosition((location) => {
+    var latitude = location.coords.latitude
+    var longitude = location.coords.longitude
+$.ajax({
+  url: 'api/v1/weather',
+  type: 'GET',
+  data: { lat: location.coords.latitude, lng: location.coords.longitude } ,
+  contentType: 'application/json; charset=utf-8',
+  success: function (response) {
+    var weather = $('.weather');
+    weather.text(response.currently.temperature + " and " + response.currently.summary);
+    console.log(response.currently.summary);
+    var location = $('.location');
+  },
+  error: function (error) {
+    console.log(error);
+  }
+});
+});
+</script>
